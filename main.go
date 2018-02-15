@@ -54,9 +54,6 @@ func sayHandler(w http.ResponseWriter, r *http.Request) {
 func loginHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("login handler!")
 	session := getSession(w, r)
-	if session == nil {
-		return
-	}
 
 	parts := strings.Split(r.URL.Path, "/")
 	name := parts[2]
@@ -67,7 +64,7 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Logged you in, %v!", name)
 }
 
-func handler(w http.ResponseWriter, r *http.Request) {
+func baseHandler(w http.ResponseWriter, r *http.Request) {
 	parts := strings.Split(r.URL.Path, "/")
 	base := parts[1]
 
@@ -83,6 +80,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/", handler)
+	http.HandleFunc("/", baseHandler)
 	http.ListenAndServe(":8080", nil)
 }
