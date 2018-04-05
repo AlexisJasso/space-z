@@ -26,8 +26,19 @@ func viewHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
 	for _, thing := range things {
-		fmt.Fprintf(w, "%v<br />", thing)
+		fmt.Fprintf(w, "%v<hr /><br />", thing)
 	}
+
+	form := `
+  <hr />
+  <form action="/say" method="POST">
+  Say What?
+  <input type="text" name="say" value="???"><br>
+  <input type="submit" value="Submit">
+</form>
+`
+
+  fmt.Fprint(w, form)
 }
 
 func sayHandler(w http.ResponseWriter, r *http.Request) {
@@ -37,18 +48,21 @@ func sayHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	fmt.Println(fmt.Printf("%#v", r))
+	r.ParseForm()
+	fmt.Println(fmt.Printf("%#v", r.Form))
+
 	name := session.Values["name"]
 	if name == "" || name == nil {
 		name = "Anon"
 	}
 
-	parts := strings.Split(r.URL.Path, "/")
-	thingSaid := strings.Join(parts[2:], " ")
+	thingSaid := r.Form["say"][0]
 	if thingSaid != "" {
 		things = append(things, fmt.Sprintf("%v: %v", name, thingSaid))
 	}
 
-	viewHandler(w, r)
+  http.Redirect(w, r, "/", 303)
 }
 
 func loginHandler(w http.ResponseWriter, r *http.Request) {
