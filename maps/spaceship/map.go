@@ -30,67 +30,38 @@ import (
 */
 
 func NewMap() *Room {
-	airlock := Room{
-		Name: "Airlock",
-	}
+	airlock := NewRoom("Airlock")
+	space := NewRoom("Space")
+	bridge := NewRoom("Bridge")
+	hallway := NewRoom("Hallway")
+	lockerRoom := NewRoom("CoEd Locker Room")
+	showers := NewRoom("CoEd Showers")
+	cargoBay := NewRoom("Cargobay")
+	cafe := NewRoom("Cafe")
+	marsSurface := NewRoom("Mars Planet Surface")
+	engineering := NewRoom("Engineering")
 
-	space := Room{
-		Name: "Space",
-	}
+	airlock.Neighbors[East] = hallway
+	airlock.Neighbors[West] = marsSurface
 
-	bridge := Room{
-		Name: "Bridge",
-	}
+	hallway.Neighbors[North] = bridge
+	hallway.Neighbors[East] = engineering
+	hallway.Neighbors[South] = lockerRoom
+	hallway.Neighbors[West] = airlock
 
-	hallway := Room{
-		Name: "Hallway",
-	}
+	bridge.Neighbors[North] = space
+	bridge.Neighbors[East] = space
+	bridge.Neighbors[South] = hallway
+	bridge.Neighbors[West] = space
 
-	lockerRoom := Room{
-		Name: "CoEd LockerRoom",
-	}
+	engineering.Neighbors[West] = hallway
 
-	showers := Room{
-		Name: "CoEd Showers",
-	}
+	lockerRoom.Neighbors[North] = hallway
+	lockerRoom.Neighbors[South] = cargoBay
+	lockerRoom.Neighbors[West] = showers
 
-	cargoBay := Room{
-		Name: "CargoBay",
-	}
+	showers.Neighbors[East] = lockerRoom
+	showers.Neighbors[West] = cafe
 
-	cafe := Room{
-		Name: "Cafe",
-	}
-
-	mars := Room{
-		Name: "Mars",
-	}
-
-	engineering := Room{
-		Name: "Engineering",
-	}
-
-	airlock.Neighbors[East] = &hallway
-	airlock.Neighbors[West] = &mars
-
-	hallway.Neighbors[North] = &bridge
-	hallway.Neighbors[East] = &engineering
-	hallway.Neighbors[South] = &lockerRoom
-	hallway.Neighbors[West] = &airlock
-
-	bridge.Neighbors[North] = &space
-	bridge.Neighbors[East] = &space
-	bridge.Neighbors[South] = &hallway
-	bridge.Neighbors[West] = &space
-
-	engineering.Neighbors[West] = &hallway
-
-	lockerRoom.Neighbors[North] = &hallway
-	lockerRoom.Neighbors[South] = &cargoBay
-	lockerRoom.Neighbors[West] = &showers
-
-	showers.Neighbors[East] = &lockerRoom
-	showers.Neighbors[West] = &cafe
-
-	return &airlock
+	return airlock
 }
