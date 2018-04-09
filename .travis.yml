@@ -5,7 +5,20 @@ go:
   - "1.x"
   - master
 
+env:
+  global:
+    - CC_TEST_REPORTER_ID=08284c70a84198322454edca0332e6398a17c8b62b7d88e489efcbcf7bb41f3f
+
 before_install:
 - go get golang.org/x/tools/cmd/cover
+
+before_script:
+- curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+- chmod +x ./cc-test-reporter
+- ./cc-test-reporter before-build
+
 script:
-- go test ./... -coverprofile cover.out
+- go test ./... -coverprofile c.out
+
+after_script:
+- ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
