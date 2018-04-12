@@ -57,6 +57,7 @@ func NewSmallSpaceShip() *SmallSpaceShip {
 		rooms.PlanetSurface,
 		rooms.Cafeteria,
 		rooms.CargoBay,
+		rooms.Space,
 	}
 
 	for _, r := range roomsList {

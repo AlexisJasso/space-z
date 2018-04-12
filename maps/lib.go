@@ -3,9 +3,9 @@ package maps
 type RoomName string
 
 type Room struct {
-	Name RoomName
+	Name 			RoomName
 	Neighbors map[CardinalDirection]*Room
-	Void bool
+	Void 			bool
 }
 
 func NewRoom(name RoomName) *Room {
